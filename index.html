@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Ticket Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for Bus Ticket App */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensure mobile-first design */
+@media (min-width: 768px) {
+    body {
+        max-width: 375px;
+        margin: 0 auto;
+        border-left: 1px solid #e5e7eb;
+        border-right: 1px solid #e5e7eb;
+    }
+}
+
+/* Custom scrollbar for mobile */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+
+/* Custom styles for the bus booking app */
+
+/* Ensure smooth transitions */
+* {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Custom scrollbar for mobile */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Focus states for better accessibility */
+input:focus, button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+/* Smooth form animations - no background fade */
+#searchPopup {
+    animation: slideIn 0.3s ease-out;
+}
+
+#searchPopup.hidden {
+    animation: slideOut 0.3s ease-in;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+}
+
+/* Ensure form content scales properly on small screens */
+@media (max-width: 320px) {
+    #searchPopup > div {
+        margin: 0.5rem;
+        max-width: calc(100% - 1rem);
+    }
+}
+
+/* Loading spinner animation */
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Enhanced backdrop blur support */
+.backdrop-blur-sm {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+/* Custom transparent input styling */
+input[type="text"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    min-height: 36px; /* Smaller height */
+}
+
+/* Compact button styling */
+button {
+    min-height: 36px; /* Smaller height */
+}
+
+/* Hover effects for better UX */
+button:hover {
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Ensure proper mobile touch targets while keeping compact */
+@media (max-width: 768px) {
+    input[type="text"], button {
+        min-height: 40px; /* Slightly larger on mobile for touch */
+    }
+}
+
+/* Prevent zoom on iOS when focusing inputs */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    select, textarea, input[type="text"] {
+        font-size: 16px;
+    }
+}
+
+/* Enhanced transparency effects */
+.bg-white\/75 {
+    background-color: rgba(255, 255, 255, 0.75);
+}
+
+.bg-white\/85 {
+    background-color: rgba(255, 255, 255, 0.85);
+}
+
+.bg-black\/50 {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.bg-black\/60 {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.bg-blue-600\/90 {
+    background-color: rgba(37, 99, 235, 0.9);
+}
+
+.bg-blue-700\/90 {
+    background-color: rgba(29, 78, 216, 0.9);
+}
+
+.border-white\/30 {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Close button styling */
+#searchPopup button[onclick="closeSearchPopup()"] {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* Form labels with better visibility */
+label {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Search button with enhanced visibility */
+button[onclick="searchBus()"] {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+    </style>
+</head>
+
+<body class="bg-gray-50 font-sans">
+    <!-- Simple Navbar -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 h-12 flex items-center px-4">
+        <div class="text-lg font-semibold text-gray-800">WoBus</div>
+    </nav>
+
+    <!-- Main Content -->
+    <div>
+        <!-- Popular Cities Section -->
+        <div class="bg-white rounded-lg shadow-sm p-3"> 
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-sm font-semibold text-gray-800">Popular Cities</h2>
+                <button class="flex items-center text-sm text-gray-600 px-3 py-1 ">
+                    <span>OD</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Cities Grid -->
+            <div class="grid grid-cols-4 gap-4" id="citiesGrid">
+                <!-- Row 1 -->
+                  <div class="flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mb-2">
+                        <img src="https://www.orissapost.com/wp-content/uploads/2021/07/Patali-Srikhetra.jpg?w=100&h=100&fit=crop&crop=center" alt="Sambalapur" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-xs text-gray-700 text-center">Sonepur</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mb-2">
+                        <img src="https://d2kihw5e8drjh5.cloudfront.net/eyJidWNrZXQiOiJ1dGEtaW1hZ2VzIiwia2V5IjoicGxhY2VfaW1nLzViZjg5YmZkODY4YzQ0ZDU5NTRjZjMyMzUzYWFmNjQ3IiwiZWRpdHMiOnsicmVzaXplIjp7IndpZHRoIjo2NDAsImhlaWdodCI6NjQwLCJmaXQiOiJpbnNpZGUifSwicm90YXRlIjpudWxsLCJ0b0Zvcm1hdCI6ICJ3ZWJwIn19?w=100&h=100&fit=crop&crop=center" alt="Sambalapur" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-xs text-gray-700 text-center">Sambalapur</span>
+                </div>
+               
+                <div class="flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mb-2">
+                        <img src="https://kevinstandagephotography.wordpress.com/wp-content/uploads/2020/04/ksp_9497.jpg?w=100&h=100&fit=crop&crop=center" alt="Bhubaneswar" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-xs text-gray-700 text-center">Bhubaneswar</span>
+                </div>
+                
+                <div class="flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mb-2">
+                        <img src="https://i0.wp.com/weekendyaari.in/wp-content/uploads/2025/05/Jagannath-Temple-Puri-%E2%80%93-Complete-Guide-.jpg?fit=720%2C480&ssl=1" alt="Puri" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-xs text-gray-700 text-center">Puri</span>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mb-2">
+                        <img src="https://indiano.travel/wp-content/uploads/2024/08/Shree-Harishankar-Temple-a.jpg?w=100&h=100&fit=crop&crop=center" alt="Balangir" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-xs text-gray-700 text-center">Balangir</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mb-2">
+                        <img src="https://blogger.googleusercontent.com/img/a/AVvXsEjCAgjegfQ-Ki3dU89BQ2IdPMc9qSHz3Y5A3HJgHYPnA0INfLBqsh8BM-9rIijtXSbyQ2SvXAswO6a8ur8kKippPlHdlaqq3xHFIbLw_XEm1OdafcJnEdUHP4G4V3jODZ-Sth6cIepsDa-EbRH37-q_KsJ2YRP1HrKgrlBM2tm8PAxapTrFkiTxjjMiv1o" alt="Kalahandi" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-xs text-gray-700 text-center">Bargarh</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mb-2">
+                        <img src="https://apps.odishatourism.gov.in/Application/uploadDocuments/UserContribution/Thumb20200522_131055.jpeg?w=100&h=100&fit=crop&crop=center" alt="Kalahandi" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-xs text-gray-700 text-center">Cuttack</span>
+                </div>                
+                <div class="flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mb-2">
+                        <img src="https://th-i.thgim.com/public/life-and-style/travel/q7bz6j/article36095460.ece/alternates/FREE_1200/25mpDeomali1?w=100&h=100&fit=crop&crop=center" alt="Korapur" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-xs text-gray-700 text-center">Koraput</span>
+                </div>
+                
+            </div>
+
+            <!-- Hidden Additional Cities -->
+            <div class="hidden grid grid-cols-4 gap-4 mt-4" id="additionalCities">
+                 <div class="flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mb-2">
+                        <img src="https://static.toiimg.com/thumb/msid-81107576,width-1280,height-720,resizemode-4/81107576.jpg?w=100&h=100&fit=crop&crop=center" alt="Rourkela" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-xs text-gray-700 text-center">Rourkela</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mb-2">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-uwTXgffHR6rpN_Iv4JmPpPWqan4StLDeVg&s" alt="Berhampur" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-xs text-gray-700 text-center">Berhampur</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mb-2">
+                        <img src="https://images.unsplash.com/photo-1605640840605-14ac1855827b?w=100&h=100&fit=crop&crop=center" alt="Baleswar" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-xs text-gray-700 text-center">Baleswar</span>
+                </div>
+                
+                <div class="flex flex-col items-center">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mb-2">
+                        <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=100&h=100&fit=crop&crop=center" alt="Dhenkanal" class="w-full h-full object-cover">
+                    </div>
+                    <span class="text-xs text-gray-700 text-center">Dhenkanal</span>
+                </div>
+                
+                
+            </div>
+            <!-- Toggle Button (Hyphen Icon) -->
+            <div class="flex justify-center mt-4">
+                <button class="text-gray-500 text-2xl font-bold" onclick="toggleCities()" id="toggleButton">
+                    ---
+                </button>
+            </div>
+        </div>
+    
+      <!-- Map Exploration Section -->
+      <div class="bg-white rounded-lg shadow-sm mb-4 relative">
+        <div id="map" class="w-full h-64 bg-gray-200 relative overflow-hidden">
+         <iframe 
+           width="100%" 
+           height="400" 
+           frameborder="0"
+           style="border-radius:8px"
+           src="https://www.openstreetmap.org/export/embed.html?bbox=85.78,20.27,85.87,20.33&layer=mapnik&marker=20.2961,85.8245">
+         </iframe>
+
+            <!-- Clickable Explore button overlaid on map center -->
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <button id="exploreBtn" 
+                       class="bg-white/90 backdrop-blur-sm px-2 py-3 rounded-[10px] shadow-lg border-0 text-gray-700 pointer-events-auto w-48 text-start hover:bg-white/95 transition-all duration-200"
+                       onclick="openSearchPopup()">
+                    Explore...
+                </button>
+            </div>
+
+            <!-- Search Form Overlay (Fully Transparent Background) -->
+            <div id="searchPopup" class="absolute inset-0 hidden items-center justify-center p-4">
+                <div class="w-full max-w-xs mx-4 relative">
+
+                    <!-- From Input -->
+<div class="mb-3 w-64 ml-4">
+    <label class="block text-xs font-semibold text-white bg-yellow-500 px-3 py-2 rounded-t-lg">
+        From
+    </label>
+    <div class="relative">
+        <input type="text" 
+               id="fromInput" 
+               placeholder="Departure" 
+               class="w-full px-3 py-2 bg-white/75 backdrop-blur-sm border-x border-b border-white/30 rounded-b-lg text-gray-800 text-xs placeholder-gray-500 focus:bg-white/85 focus:border-blue-400 focus:outline-none transition-all">
+        <div id="locationLoader" class="absolute right-2 top-2 hidden">
+            <svg class="animate-spin h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+        </div>
+    </div>
+</div>
+
+<!-- To Input -->
+<div class="mb-4 w-64 ml-4">
+    <label class="block text-xs font-semibold text-white bg-blue-500 px-3 py-2 rounded-t-lg">
+        To
+    </label>
+    <input type="text" 
+           id="toInput" 
+           placeholder="Destination" 
+           class="w-full px-3 py-2 bg-white/75 backdrop-blur-sm border-x border-b border-white/30 rounded-b-lg text-gray-800 text-xs placeholder-gray-500 focus:bg-white/85 focus:border-blue-400 focus:outline-none transition-all">
+</div>
+
+ <!-- Search Button -->
+ <button onclick="searchBus()"
+ class="w-48 bg-gray-900/40 text-white py-2 px-3 ml-12 text-sm font-semibold uppercase tracking-wide rounded-[10px] hover:bg-black/70 transition-all shadow-lg">
+  SEARCH
+ </button>
+
+
+
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        // Main JavaScript file for Bus Ticket App
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Bus Ticket App loaded!');
+});
+
+// Toggle function to show/hide additional cities
+function toggleCities() {
+    const additionalCities = document.getElementById('additionalCities');
+    const toggleButton = document.getElementById('toggleButton');
+    
+    if (additionalCities.classList.contains('hidden')) {
+        // Show additional cities
+        additionalCities.classList.remove('hidden');
+        // Keep the same hyphen icon
+        toggleButton.textContent = '---';
+    } else {
+        // Hide additional cities
+        additionalCities.classList.add('hidden');
+        // Keep the same hyphen icon
+        toggleButton.textContent = '---';
+    }
+}
+
+// Search popup functionality
+// Search popup functionality
+function openSearchPopup() {
+    const popup = document.getElementById('searchPopup');
+    const exploreBtn = document.getElementById('exploreBtn');
+    
+    popup.classList.remove('hidden');
+    popup.classList.add('flex');
+    exploreBtn.style.display = 'none'; // Hide explore button
+    
+    // Get user's current location when popup opens
+    getCurrentLocation();
+}
+
+function closeSearchPopup() {
+    const popup = document.getElementById('searchPopup');
+    const exploreBtn = document.getElementById('exploreBtn');
+    
+    popup.classList.add('hidden');
+    popup.classList.remove('flex');
+    exploreBtn.style.display = 'block'; // Show explore button again
+    
+    // Reset form
+    document.getElementById('fromInput').value = '';
+    document.getElementById('toInput').value = '';
+    document.getElementById('fromInput').placeholder = 'Getting your location...';
+}
+
+// Geolocation functionality
+function getCurrentLocation() {
+    const fromInput = document.getElementById('fromInput');
+    const loader = document.getElementById('locationLoader');
+    
+    // Show loading state
+    loader.classList.remove('hidden');
+    fromInput.placeholder = 'Getting your location...';
+    fromInput.value = '';
+    
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                
+                // Use reverse geocoding to get city name
+                getCityFromCoordinates(latitude, longitude);
+            },
+            function(error) {
+                // Hide loader
+                loader.classList.add('hidden');
+                
+                // Handle different error cases
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        fromInput.placeholder = 'Location access denied';
+                        fromInput.value = '';
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        fromInput.placeholder = 'Location unavailable';
+                        fromInput.value = '';
+                        break;
+                    case error.TIMEOUT:
+                        fromInput.placeholder = 'Location request timeout';
+                        fromInput.value = '';
+                        break;
+                    default:
+                        fromInput.placeholder = 'Enter your location';
+                        fromInput.value = '';
+                        break;
+                }
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 60000
+            }
+        );
+    } else {
+        // Geolocation not supported
+        loader.classList.add('hidden');
+        fromInput.placeholder = 'Geolocation not supported';
+        fromInput.value = '';
+    }
+}
+
+// Reverse geocoding to get city name from coordinates
+function getCityFromCoordinates(latitude, longitude) {
+    const fromInput = document.getElementById('fromInput');
+    const loader = document.getElementById('locationLoader');
+    
+    // Using Nominatim API for reverse geocoding (free OpenStreetMap service)
+    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10&addressdetails=1`;
+    
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            // Hide loader
+            loader.classList.add('hidden');
+            
+            // Extract city name from the response
+            let cityName = '';
+            if (data.address) {
+                cityName = data.address.city || 
+                          data.address.town || 
+                          data.address.village || 
+                          data.address.county || 
+                          data.address.state_district ||
+                          'Unknown Location';
+            } else {
+                cityName = 'Location found';
+            }
+            
+            // Set the city name in the input
+            fromInput.value = cityName;
+            fromInput.placeholder = 'Your current location';
+        })
+        .catch(error => {
+            // Hide loader
+            loader.classList.add('hidden');
+            
+            // Fallback - just show coordinates or a generic message
+            fromInput.value = `Lat: ${latitude.toFixed(4)}, Lng: ${longitude.toFixed(4)}`;
+            fromInput.placeholder = 'Location found';
+            console.error('Reverse geocoding error:', error);
+        });
+}
+
+// Search bus functionality
+function searchBus() {
+    const fromValue = document.getElementById('fromInput').value.trim();
+    const toValue = document.getElementById('toInput').value.trim();
+    
+    // Basic validation
+    if (!fromValue) {
+        alert('Please allow location access or enter your departure city');
+        return;
+    }
+    
+    if (!toValue) {
+        alert('Please enter your destination city');
+        return;
+    }
+    
+    // Store search data in localStorage for the results page
+    const searchData = {
+        from: fromValue,
+        to: toValue,
+        searchDate: new Date().toISOString()
+    };
+    
+    localStorage.setItem('busSearchData', JSON.stringify(searchData));
+    
+    // Navigate to results page
+    window.location.href = 'buslist.html';
+}
+
+// Close popup when clicking outside
+document.addEventListener('click', function(event) {
+    const popup = document.getElementById('searchPopup');
+    const popupContent = popup.querySelector('.bg-white');
+    
+    if (popup && !popup.classList.contains('hidden')) {
+        if (!popupContent.contains(event.target) && event.target !== document.getElementById('exploreBtn')) {
+            closeSearchPopup();
+        }
+    }
+});
+
+// Prevent popup from closing when clicking inside the popup content
+document.getElementById('searchPopup').addEventListener('click', function(event) {
+    if (event.target === this) {
+        closeSearchPopup();
+    }
+});
+    </script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Bus Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .radio-custom {
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border: 2px solid #d1d5db;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+        }
+        .radio-custom:checked {
+            border-color: #3b82f6;
+            background-color: white;
+        }
+        .radio-custom:checked::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #3b82f6;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .section-header {
+            cursor: pointer;
+        }
+        .payment-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .payment-content.active {
+            max-height: 500px;
+        }
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <div class="bg-white shadow-sm">
+        <div class="max-w-md mx-auto px-4 py-3 flex items-center">
+            <button onclick="goBack()" class="text-gray-700 text-xl mr-4">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1 class="text-lg font-semibold text-gray-800">Payment</h1>
+        </div>
+    </div>
+    <div class="max-w-md mx-auto">
+        <!-- Bus Info Section -->
+        <div class="p-2">
+          <div class="bg-white p-2 rounded-lg">
+            <div class="flex justify-between items-start">
+             <div>
+                <p id="bus-route" class="text-medium font-semibold text-gray-800">Route</p>
+                <p class="text-sm font-semibold text-gray-600" id="bus-time">7:45 PM</p>
+             </div>
+             <div class="text-right">
+               <h2 class="text-medium font-semibold text-gray-800" id="bus-name">Ena Transport</h2>
+                <p class="text-sm text-gray-600">Type: <span class="font-medium" id="bus-type">AC (6)</span></p>
+             </div>
+            </div>
+          <div class="flex justify-between items-center mt-4 pt-4 border-t border-gray-200">
+            <span class="text-sm text-gray-600">Selected Seats: <span id="selected-seats">-</span></span>
+            <span class="font-semibold text-orange-600" id="total-price">₹0</span>
+          </div>
+           <span class="text-sm text-gray-600">Selected Boarding & Dropping Point: <span id="selected-board-drop">-</span></span>
+        </div>
+    </div>
+
+        <!-- Payment Options Section -->
+        <div class="p-2">
+            <div class="bg-white rounded-lg overflow-hidden">
+                <!-- QR Code Option -->
+                <div class="border-b border-gray-200">
+                    <div class="section-header flex items-center justify-between p-2" onclick="togglePayment('qr')">
+                        <div class="flex items-center gap-3">
+                            <img src="https://media.istockphoto.com/id/1192888340/vector/qr-code-icon-vector-illustration-in-flat-design.jpg?s=612x612&w=0&k=20&c=TRBti-3g0hAdbiVGlIrTj-k7W4L0sTEHc3njhJ8-QRY=" alt="QR Code" class="payment-icon">
+                            <div>
+                                <p class="font-medium text-gray-800">Show QR Code</p>
+                                <p class="text-xs text-gray-500">Scan with any UPI app</p>
+                            </div>
+                        </div>
+                        <input type="radio" name="payment" class="radio-custom" id="radio-qr">
+                    </div>
+                    <div class="payment-content" id="content-qr">
+                        <div class="px-4 pb-4 flex justify-center">
+                            <div class="bg-white p-4 rounded-lg border-2 border-gray-200">
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=merchant@upi" alt="QR Code" class="w-48 h-48">
+                                <p class="text-center text-sm text-gray-600 mt-2">Scan to pay</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UPI ID Option -->
+                <div class="border-b border-gray-200">
+                    <div class="section-header flex items-center justify-between p-2" onclick="togglePayment('upi')">
+                        <div class="flex items-center gap-3">
+                            <img src="https://e7.pngegg.com/pngimages/795/596/png-clipart-logo-line-angle-brand-line-angle-triangle.png" alt="UPI" class="payment-icon">
+                            <div>
+                                <p class="font-medium text-gray-800">UPI ID</p>
+                                <p class="text-xs text-gray-500">PhonePe, Gpay, Paytm, BHIM & more</p>
+                            </div>
+                        </div>
+                        <input type="radio" name="payment" class="radio-custom" id="radio-upi">
+                    </div>
+                    <div class="payment-content" id="content-upi">
+                        <div class="px-4 pb-4">
+                            <input type="text" placeholder="Enter UPI ID (e.g., name@upi)" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 mb-3">
+                            <button class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium text-sm hover:bg-blue-700">Verify & Pay</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Option -->
+                <div class="border-b border-gray-200">
+                    <div class="section-header flex items-center justify-between p-2" onclick="togglePayment('card')">
+                        <div class="flex items-center gap-3">
+                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/debit-card-3d-icon-png-download-5121619.png" alt="Card" class="payment-icon">
+                            <div>
+                                <p class="font-medium text-gray-800">Card</p>
+                                <p class="text-xs text-gray-500">Visa, Mastercard, Rupay & more</p>
+                            </div>
+                        </div>
+                        <input type="radio" name="payment" class="radio-custom" id="radio-card">
+                    </div>
+                    <div class="payment-content" id="content-card">
+                        <div class="px-4 pb-4 space-y-3">
+                            <input type="text" placeholder="Card Number" maxlength="19" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500">
+                            <input type="text" placeholder="Cardholder Name" class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500">
+                            <div class="flex gap-3">
+                                <input type="text" placeholder="MM/YY" maxlength="5" class="w-1/2 border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500">
+                                <input type="text" placeholder="CVV" maxlength="3" class="w-1/2 border border-gray-300 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500">
+                            </div>
+                            <button class="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium text-sm hover:bg-blue-700">Pay Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Net Banking Option -->
+               <!-- Net Banking Option -->
+<div>
+    <div class="section-header flex items-center justify-between p-2" onclick="togglePayment('netbanking')">
+        <div class="flex items-center gap-3">
+            <img src="https://static.thenounproject.com/png/634436-200.png" alt="Net Banking" class="payment-icon">
+            <div>
+                <p class="font-medium text-gray-800">Net Banking</p>
+                <p class="text-xs text-gray-500">Choose your bank to complete payment</p>
+            </div>
+        </div>
+        <input type="radio" name="payment" class="radio-custom" id="radio-netbanking">
+    </div>
+   <div class="payment-content" id="content-netbanking">
+    <div class="border-t border-gray-200">
+        <div class="flex items-center justify-between p-2 hover:bg-gray-50 cursor-pointer" onclick="selectBank('hdfc')">
+            <div class="flex items-center gap-3">
+                <img src="https://seekvectors.com/files/download/hdfc-bank-logo-04.jpg" alt="HDFC" class="w-8 h-8 object-contain">
+                <span class="text-gray-800">HDFC Bank</span>
+            </div>
+            <input type="radio" name="bank" class="radio-custom" id="bank-hdfc">
+        </div>
+        <div class="flex items-center justify-between p-2 hover:bg-gray-50 cursor-pointer border-t border-gray-200" onclick="selectBank('uco')">
+            <div class="flex items-center gap-3">
+                <img src="https://logosandtypes.com/wp-content/uploads/2020/06/bank-of-baroda.png" alt="UCO" class="w-8 h-8 object-contain">
+                <span class="text-gray-800">Baroda Bank</span>
+            </div>
+            <input type="radio" name="bank" class="radio-custom" id="bank-uco">
+        </div>
+        <div class="flex items-center justify-between p-2 hover:bg-gray-50 cursor-pointer border-t border-gray-200" onclick="selectBank('sbi')">
+            <div class="flex items-center gap-3">
+                <img src="https://thebranvetica.com/assets/img/SBI_Logo.webp" alt="SBI" class="w-8 h-8 object-contain">
+                <span class="text-gray-800">State Bank of India (SBI)</span>
+            </div>
+            <input type="radio" name="bank" class="radio-custom" id="bank-sbi">
+        </div>
+    </div>
+</div>
+</div>
+
+            </div>
+        </div>
+  
+        <!-- Continue Button -->
+        <div class="px-4 pb-4">
+            <button id="continue-btn" class="w-full bg-green-600 text-white py-3 rounded-lg font-medium ">
+             Book Ticket 
+            </button>
+        </div>
+    </div>
+
+ 
+    <script>
+          // Toggle payment sections
+        let currentOpen = null;
+
+        function togglePayment(section) {
+            const content = document.getElementById(`content-${section}`);
+            const radio = document.getElementById(`radio-${section}`);
+
+            // Close previously opened section
+            if (currentOpen && currentOpen !== section) {
+                document.getElementById(`content-${currentOpen}`).classList.remove('active');
+                document.getElementById(`radio-${currentOpen}`).checked = false;
+            }
+
+            // Toggle current section
+            if (currentOpen === section) {
+                content.classList.remove('active');
+                radio.checked = false;
+                currentOpen = null;
+            } else {
+                content.classList.add('active');
+                radio.checked = true;
+                currentOpen = section;
+            }
+        }
+        function selectBank(bankName) {
+    const radio = document.getElementById(`bank-${bankName}`);
+    radio.checked = true;
+}
+
+        function goBack() {
+            window.history.back();
+        }
+        
+document.addEventListener('DOMContentLoaded', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // Get all data passed from passenger page
+    const busName = urlParams.get('busName') || 'Bus Name';
+    const busTime = urlParams.get('busTime') || 'Time';
+    const busType = urlParams.get('busType') || 'Type';
+    const selectedSeats = urlParams.get('selectedSeats') || '-';
+    const totalPrice = urlParams.get('totalPrice') || '0';
+    const fromCity = urlParams.get('fromCity') || 'From';
+    const toCity = urlParams.get('toCity') || 'To';
+    const boardingTime = urlParams.get('boardingTime') || '';
+    const boardingLocation = urlParams.get('boardingLocation') || '';
+    const droppingTime = urlParams.get('droppingTime') || '';
+    const droppingLocation = urlParams.get('droppingLocation') || '';
+
+    // Update elements dynamically
+    document.getElementById('bus-name').textContent = busName;
+    document.getElementById('bus-time').textContent = busTime;
+    document.getElementById('bus-type').textContent = busType;
+    document.getElementById('selected-seats').textContent = selectedSeats;
+    document.getElementById('total-price').textContent = '₹' + totalPrice;
+    document.getElementById('bus-route').textContent = `${fromCity} → ${toCity}`;
+    document.getElementById('selected-board-drop').textContent = `${boardingLocation} (${boardingTime}) → ${droppingLocation} (${droppingTime})`;
+});
+// Book Ticket button - Navigate to ticket page with all data
+document.getElementById('continue-btn').addEventListener('click', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // Get all parameters from current URL (including passengers)
+    const busName = urlParams.get('busName') || '';
+    const busTime = urlParams.get('busTime') || '';
+    const busType = urlParams.get('busType') || '';
+    const selectedSeats = urlParams.get('selectedSeats') || '';
+    const totalPrice = urlParams.get('totalPrice') || '';
+    const fromCity = urlParams.get('fromCity') || '';
+    const toCity = urlParams.get('toCity') || '';
+    const boardingTime = urlParams.get('boardingTime') || '';
+    const boardingLocation = urlParams.get('boardingLocation') || '';
+    const boardingAddress = urlParams.get('boardingAddress') || '';
+    const droppingTime = urlParams.get('droppingTime') || '';
+    const droppingLocation = urlParams.get('droppingLocation') || '';
+    const droppingAddress = urlParams.get('droppingAddress') || '';
+    const passengers = urlParams.get('passengers') || '[]';
+    const phone = urlParams.get('phone') || '';
+    const email = urlParams.get('email') || '';
+    const state = urlParams.get('state') || '';
+
+    // Build URL for ticket page with ALL data
+    const ticketUrl = `ticket.html?busName=${encodeURIComponent(busName)}&busTime=${encodeURIComponent(busTime)}&busType=${encodeURIComponent(busType)}&selectedSeats=${encodeURIComponent(selectedSeats)}&totalPrice=${encodeURIComponent(totalPrice)}&fromCity=${encodeURIComponent(fromCity)}&toCity=${encodeURIComponent(toCity)}&boardingTime=${encodeURIComponent(boardingTime)}&boardingLocation=${encodeURIComponent(boardingLocation)}&boardingAddress=${encodeURIComponent(boardingAddress)}&droppingTime=${encodeURIComponent(droppingTime)}&droppingLocation=${encodeURIComponent(droppingLocation)}&droppingAddress=${encodeURIComponent(droppingAddress)}&passengers=${encodeURIComponent(passengers)}&phone=${encodeURIComponent(phone)}&email=${encodeURIComponent(email)}&state=${encodeURIComponent(state)}`;
+
+    // Redirect to ticket page
+    window.location.href = ticketUrl;
+});
+    </script>
+</body>
+</html>

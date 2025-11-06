@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Boarding & Drop Points - Bus Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .radio-custom {
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            border: 2px solid #d1d5db;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+        }
+        .radio-custom:checked {
+            border-color: #3b82f6;
+            background-color: white;
+        }
+        .radio-custom:checked::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #3b82f6;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .section-header {
+            cursor: pointer;
+        }
+        .chevron {
+            transition: transform 0.3s ease;
+        }
+        .chevron.rotated {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <div class="bg-white shadow-sm p-2">
+        <div class="max-w-md mx-auto py-3 flex items-center">
+            <button onclick="goBack()" class="text-gray-700 text-medium mr-3">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1 class="text-medium font-semibold text-gray-800">Select Boarding & Dropping Point</h1>
+        </div>
+    </div>
+
+    <div class="max-w-md mx-auto ">
+        <!-- Bus Info Section -->
+        <div class="p-2">
+          <div class="bg-white p-2 rounded-lg">
+            <div class="flex justify-between items-start">
+             <div>
+                <p id="bus-route" class="text-sm font-semibold text-gray-800">Route</p>
+                <p class="text-sm font-semibold text-gray-700" id="bus-time">7:45 PM</p>
+             </div>
+             <div class="text-right">
+               <h2 class="text-sm font-semibold text-gray-800" id="bus-name">Ena Transport</h2>
+                <p class="text-sm text-gray-600">Type: <span class="font-medium" id="bus-type">AC (6)</span></p>
+             </div>
+            </div>
+          <div class="flex justify-between items-center mt-2 pt-3 border-t border-gray-200">
+            <span class="text-sm text-gray-600">Selected Seats: <span id="selected-seats">-</span></span>
+            <span class="font-semibold text-orange-500" id="total-price">₹0</span>
+          </div>
+        </div>
+    </div>
+
+
+     <!-- Boarding Points Section -->
+     <div class="p-2" >
+        <div class="rounded-lg bg-white">
+            <div class="section-header px-2 py-2 flex justify-between items-center" onclick="toggleSection('boarding')">
+                <div>
+                    <h2 class="text-sm font-semibold text-green-700">Boarding points</h2>
+                </div>
+                <svg class="w-4 h-4 text-gray-400 chevron" id="boarding-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div id="boarding-content" class="px-2 pb-2">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-1">
+                                <span class="text-sm font-medium text-gray-800 mr-3">10:00 PM</span>
+                                <span class="font-medium text-gray-800 absolute left-1/2 -translate-x-1/2">Sonepur</span>
+                            </div>
+                            <p class="text-xs text-gray-500">Sonepur Bus Stand</p>
+                        </div>
+                        <input type="radio" name="boarding" value="padur" class="radio-custom">
+                    </div>
+                    <div class="flex items-center justify-between border-b border-gray-100 ">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-1">
+                                <span class="text-sm font-medium text-gray-800 mr-3">10:10 PM</span>
+                                <span class="font-medium text-gray-800 absolute left-1/2 -translate-x-1/2">Siruseri</span>
+                            </div>
+                            <p class="text-xs text-gray-500">Infront of HDFC ATM, Opp to Adyar anandha Bhavan</p>
+                        </div>
+                        <input type="radio" name="boarding" value="siruseri" class="radio-custom">
+                    </div>
+                    <div class="flex items-center justify-between border-b border-gray-100 ">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-1">
+                                <span class="text-sm font-medium text-gray-800 mr-3">10:30 PM</span>
+                                <span class="font-medium text-gray-800 absolute left-1/2 -translate-x-1/2">Navalur</span>
+                            </div>
+                            <p class="text-xs text-gray-500">Infront Of Vivera Mall - towards sholinganallur</p>
+                        </div>
+                        <input type="radio" name="boarding" value="navalur" class="radio-custom">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dropping Points Section -->
+        <div class="rounded-lg bg-white">
+            <div class="section-header px-2 py-2 flex justify-between items-center" onclick="toggleSection('dropping')">
+                <div>
+                    <h2 class="text-sm font-semibold text-red-700">Dropping points</h2>
+                </div>
+                <svg class="w-4 h-4 text-gray-400 chevron" id="dropping-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </div>
+            <div id="dropping-content" class="px-2 pb-2">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between border-b  py-3 border-gray-100">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-1">
+                                <span class="text-sm font-medium text-gray-800 mr-3">06:40 AM</span>
+                                <span class="font-medium text-gray-800 absolute left-1/2 -translate-x-1/2">Chandapura</span>
+                            </div>
+                            
+                            <p class="text-xs text-gray-500">Infront Of R K Dhaba and Restaurant</p>
+                        </div>
+                        <input type="radio" name="dropping" value="chandapura" class="radio-custom">
+                    </div>
+                    <div class="flex items-center justify-between border-b border-gray-100">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-1">
+                                <span class="text-sm font-medium text-gray-800 mr-3">06:40</span>
+                                <span class="font-medium text-gray-800 absolute left-1/2 -translate-x-1/2">Bommasandra</span>
+                            </div>
+                            
+                            <p class="text-xs text-gray-500">Opp to indian oil petrol bunk</p>
+                        </div>
+                        <input type="radio" name="dropping" value="bommasandra2" class="radio-custom">
+                    </div>
+                    <div class="flex items-center justify-between border-b border-gray-100">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-1">
+                                <span class="text-sm font-medium text-gray-800 mr-3">7:00</span>
+                                <span class="font-medium text-gray-800 absolute left-1/2 -translate-x-1/2">Puri</span>
+                            </div>
+                            
+                            <p class="text-xs text-gray-500">Puri New Bus Stand</p>
+                        </div>
+                        <input type="radio" name="dropping" value="electronic-city" class="radio-custom">
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+        <!-- Continue Button -->
+        <div class="p-4">
+            <button id="continue-btn" class="w-full  text-white py-3 rounded-lg font-medium disabled:bg-gray-500 disabled:cursor-not-allowed" disabled>
+                Fill Passenger details
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Load bus info and selected seats from previous page
+function loadBusInfo() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const busName = urlParams.get('busName') || 'Bus Name';
+    const busTime = urlParams.get('busTime') || 'Time';
+    const busType = urlParams.get('busType') || 'Type';
+    const seatPrice = urlParams.get('seatPrice') || '0';
+    const selectedSeats = urlParams.get('selectedSeats') || '';
+    const totalPrice = urlParams.get('totalPrice') || '0';
+
+    // Get route from localStorage
+    const fromCity = localStorage.getItem('fromCity') || 'Bhubaneswar';
+    const toCity = localStorage.getItem('toCity') || 'Cuttack';
+
+    // Update bus info
+    document.getElementById('bus-route').textContent = fromCity + ' - ' + toCity;
+    document.getElementById('bus-name').textContent = busName;
+    document.getElementById('bus-time').textContent = busTime;
+    document.getElementById('bus-type').textContent = busType;
+    document.getElementById('selected-seats').textContent = selectedSeats || '-';
+    document.getElementById('total-price').textContent = '₹' + totalPrice;
+}
+
+// Toggle section visibility
+function toggleSection(sectionName) {
+    const content = document.getElementById(sectionName + '-content');
+    const chevron = document.getElementById(sectionName + '-chevron');
+    
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        chevron.classList.remove('rotated');
+    } else {
+        content.style.display = 'none';
+        chevron.classList.add('rotated');
+    }
+}
+
+// Check if both boarding and dropping points are selected
+function checkSelections() {
+    const boardingSelected = document.querySelector('input[name="boarding"]:checked');
+    const droppingSelected = document.querySelector('input[name="dropping"]:checked');
+    const continueBtn = document.getElementById('continue-btn');
+    
+    if (boardingSelected && droppingSelected) {
+        continueBtn.disabled = false;
+        continueBtn.classList.remove('bg-gray-300', 'cursor-not-allowed');
+        continueBtn.classList.add('bg-green-600');
+    } else {
+        continueBtn.disabled = true;
+        continueBtn.classList.add('bg-gray-300', 'cursor-not-allowed');
+        continueBtn.classList.remove('bg-green-600');
+    }
+}
+
+// Add event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    loadBusInfo();
+    
+    // Add event listeners to all radio buttons
+    const radioButtons = document.querySelectorAll('input[type="radio"]');
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', checkSelections);
+    });
+    
+    // Continue button click handler
+// Continue button click handler
+document.getElementById('continue-btn').addEventListener('click', function() {
+    if (!this.disabled) {
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Get all existing data from URL
+        const busName = urlParams.get('busName') || 'Bus Name';
+        const busTime = urlParams.get('busTime') || 'Time';
+        const busType = urlParams.get('busType') || 'Type';
+        const seatPrice = urlParams.get('seatPrice') || '0';
+        const selectedSeats = urlParams.get('selectedSeats') || '';
+        const totalPrice = urlParams.get('totalPrice') || '0';
+        
+        // Get route from localStorage
+        const fromCity = localStorage.getItem('fromCity') || 'Bhubaneswar';
+        const toCity = localStorage.getItem('toCity') || 'Cuttack';
+        
+        // Get selected boarding and dropping points with full details
+        const boardingRadio = document.querySelector('input[name="boarding"]:checked');
+        const droppingRadio = document.querySelector('input[name="dropping"]:checked');
+        
+        // Get the parent elements to extract time and location
+        const boardingParent = boardingRadio.closest('.flex.items-center');
+        const droppingParent = droppingRadio.closest('.flex.items-center');
+        
+        const boardingTime = boardingParent.querySelector('.text-sm.font-medium').textContent;
+        const boardingLocation = boardingParent.querySelector('.font-medium.text-gray-800').textContent;
+        const boardingAddress = boardingParent.querySelector('.text-xs.text-gray-500').textContent;
+        
+        const droppingTime = droppingParent.querySelector('.text-sm.font-medium').textContent;
+        const droppingLocation = droppingParent.querySelector('.font-medium.text-gray-800').textContent;
+        const droppingAddress = droppingParent.querySelector('.text-xs.text-gray-500').textContent;
+        
+        // Build URL with all data
+        const passengerUrl = `passenger.html?busName=${encodeURIComponent(busName)}&busTime=${encodeURIComponent(busTime)}&busType=${encodeURIComponent(busType)}&seatPrice=${seatPrice}&selectedSeats=${encodeURIComponent(selectedSeats)}&totalPrice=${totalPrice}&fromCity=${encodeURIComponent(fromCity)}&toCity=${encodeURIComponent(toCity)}&boardingTime=${encodeURIComponent(boardingTime)}&boardingLocation=${encodeURIComponent(boardingLocation)}&boardingAddress=${encodeURIComponent(boardingAddress)}&droppingTime=${encodeURIComponent(droppingTime)}&droppingLocation=${encodeURIComponent(droppingLocation)}&droppingAddress=${encodeURIComponent(droppingAddress)}`;
+        
+        // Navigate to passenger details page
+        window.location.href = passengerUrl;
+    }
+});
+});
+// Go back to results page
+function goBack() {
+    window.history.back();
+}
+z
+    </script>
+</body>
+</html>

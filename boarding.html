@@ -279,7 +279,7 @@ document.getElementById('continue-btn').addEventListener('click', function() {
         const droppingAddress = droppingParent.querySelector('.text-xs.text-gray-500').textContent;
         
         // Build URL with all data
-        const passengerUrl = `passenger.html?busName=${encodeURIComponent(busName)}&busTime=${encodeURIComponent(busTime)}&busType=${encodeURIComponent(busType)}&seatPrice=${seatPrice}&selectedSeats=${encodeURIComponent(selectedSeats)}&totalPrice=${totalPrice}&fromCity=${encodeURIComponent(fromCity)}&toCity=${encodeURIComponent(toCity)}&boardingTime=${encodeURIComponent(boardingTime)}&boardingLocation=${encodeURIComponent(boardingLocation)}&boardingAddress=${encodeURIComponent(boardingAddress)}&droppingTime=${encodeURIComponent(droppingTime)}&droppingLocation=${encodeURIComponent(droppingLocation)}&droppingAddress=${encodeURIComponent(droppingAddress)}`;
+        const passengerUrl = `Passenger.html?busName=${encodeURIComponent(busName)}&busTime=${encodeURIComponent(busTime)}&busType=${encodeURIComponent(busType)}&seatPrice=${seatPrice}&selectedSeats=${encodeURIComponent(selectedSeats)}&totalPrice=${totalPrice}&fromCity=${encodeURIComponent(fromCity)}&toCity=${encodeURIComponent(toCity)}&boardingTime=${encodeURIComponent(boardingTime)}&boardingLocation=${encodeURIComponent(boardingLocation)}&boardingAddress=${encodeURIComponent(boardingAddress)}&droppingTime=${encodeURIComponent(droppingTime)}&droppingLocation=${encodeURIComponent(droppingLocation)}&droppingAddress=${encodeURIComponent(droppingAddress)}`;
         
         // Navigate to passenger details page
         window.location.href = passengerUrl;
@@ -293,4 +293,5 @@ function goBack() {
 z
     </script>
 </body>
+
 </html>

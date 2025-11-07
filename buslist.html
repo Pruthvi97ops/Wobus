@@ -10,7 +10,7 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#4CAF50',
+                        primary: '#000000d3',
                         secondary: '#667eea'
                     }
                 }
@@ -37,15 +37,7 @@
                 </div>
                 
                 <!-- Date Picker -->
-                <input type="date" id="travel-date" class=" py-1.5 border border-gray-300 rounded-md text-xs bg-white flex-shrink-0 w-24">
-                
-                <!-- Person Selector -->
-                <select id="person-count" class="px-2 py-1.5 border border-gray-300 rounded-md text-xs bg-white flex-shrink-0 w-16">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select>
+                <input type="date" id="travel-date" class=" py-1.5 border border-gray-300 rounded-md text-xs bg-white flex-shrink-0 mr-3 w-24">
             </div>
         </div>
     </div>
@@ -74,7 +66,7 @@
     </div>
 
     <!-- Bus List -->
-    <div class="px-2 py-1">
+    <div class="py-2">
         <div id="bus-list" class="space-y-2">
             <!-- Bus cards will be dynamically generated here -->
         </div>
@@ -90,7 +82,7 @@ const busData = [
         seats: 10,
         logo: "HR",
         logoColor: "bg-red-500",
-        departure: "10:00 AM",
+        departure: "10:00 PM",
         arrival: "05:45 AM",
         duration: "8H 25M",
         price: 450
@@ -102,9 +94,9 @@ const busData = [
         seats: 25,
         logo: "GL",
         logoColor: "bg-green-500",
-        departure: "11:30 AM",
-        arrival: "07:15 AM",
-        duration: "8H 45M",
+        departure: "11:30 PM",
+        arrival: "06:15 AM",
+        duration: "8H 35M",
         price: 350
     },
     {
@@ -115,7 +107,7 @@ const busData = [
         logo: "RC",
         logoColor: "bg-purple-500",
         departure: "09:15 PM",
-        arrival: "06:00 AM",
+        arrival: "07:00 AM",
         duration: "8H 45M",
         price: 650
     }
@@ -171,13 +163,13 @@ function renderBusCards() {
 // Create individual bus card
 function createBusCard(bus, fromCity, toCity) {
     const card = document.createElement('div');
-card.className = 'bg-white rounded-xl p-4 shadow-md border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer';
+card.className = 'bg-white p-4 shadow-md border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer';
 card.onclick = () => viewSeats(bus.id);
 
     
     card.innerHTML = `
         <!-- Bus Header -->
-        <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center justify-between mb-4 ">
             <div class="flex items-center gap-3">
                 <div class="w-12 h-12 ${bus.logoColor} rounded-lg flex items-center justify-center text-white font-bold text-sm">
                     ${bus.logo}

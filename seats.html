@@ -75,7 +75,7 @@
     </div>
 
     <!-- Bus Info Section -->
-    <div class="p-2">
+    <div class="px-2">
         <div class="bg-white p-2 rounded-lg">
             <div class="flex justify-between items-start">
                 <div>
@@ -92,7 +92,7 @@
 
     <!-- Seat Legend -->
     <div class="px-2 pb-2">
-        <div class="bg-white p-2 rounded-lg">
+        <div class="bg-white p-3 rounded-lg">
             <div class="flex justify-around items-center">
                 <div class="flex items-center space-x-2">
                     <div class="w-4 h-4 bg-gray-100 border-2 border-gray-300 rounded"></div>
@@ -114,19 +114,28 @@
     <div class="px-2">
         <div class="bus-layout">
             <!-- Driver Section -->
-      <div class="flex justify-end mb-3 mr-9">
-    <div class="driver-section">
-        <!-- Inline SVG Steering Wheel Icon -->
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
-            <line x1="12" y1="3" x2="12" y2="9" stroke="currentColor" stroke-width="2"/>
-            <line x1="12" y1="15" x2="12" y2="21" stroke="currentColor" stroke-width="2"/>
-            <line x1="3" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="2"/>
-            <line x1="15" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2"/>
-        </svg>
-    </div>
+<div class="flex justify-between items-center mb-3 mr-9 ml-1">
+  <!-- Left side button with 🔄 icon -->
+  <button class="flex items-center gap-2 py-1 bg-white text-gray-500 text-sm font-semibold rounded-lg hover:bg-blue-700 transition">
+    Upper Berth 🔄
+  </button>
+
+  <!-- Right side steering wheel icon -->
+  <div class="driver-section">
+  <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 40 40" fill="none">
+  <path d="M38.7222 18.521C39.9065 42.9616 2.97263 45.1572 1.278 20.7139C0.0937346 
+  -3.7255 37.0276 -5.92111 38.7222 18.521ZM6.85361 14.9134H33.1466C29.84 2.85115 
+  10.1587 2.85589 6.85361 14.9134ZM17.6142 33.3626C17.6854 26.7541 13.022 19.8117 
+  5.99136 19.5594C5.87927 26.7284 11.5146 32.5365 17.6142 33.3626ZM34.0097 
+  19.6143C26.8539 19.6963 22.5045 26.8279 22.2997 33.3742C28.4857 32.5365 34.121 26.7284
+  34.0097 19.6143ZM22.338 19.6081C22.3545 16.579 17.6195 16.6012 17.6622 19.6281C17.6457 
+  22.6571 22.3808 22.6348 22.338 19.6081Z" fill="#6B7280">
+  </path>
+  </svg>
+  </div>
 </div>
+
+
 
             <!-- Seats Grid -->
             <div class="space-y-4">
@@ -192,7 +201,7 @@
             </div>
         </div>
     </div>
-
+  
     <!-- Selected Seats Info -->
     <div class="p-4" id="selectedInfo">
         <div class="bg-white p-4 rounded-lg">
@@ -365,6 +374,4 @@ function showAlert(message) {
 
     </script>
 </body>
-
 </html>
-

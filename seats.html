@@ -60,6 +60,12 @@
             justify-content: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
+        .sleeper .seat {
+            width: 45px;
+            height: 100px;
+            border-radius: 10px;
+        }
+
     </style>
     
 </head>
@@ -115,10 +121,28 @@
         <div class="bus-layout">
             <!-- Driver Section -->
 <div class="flex justify-between items-center mb-3 mr-9 ml-1">
-  <!-- Left side button with 🔄 icon -->
-  <button class="flex items-center gap-2 py-1 bg-white text-gray-500 text-sm font-semibold rounded-lg hover:bg-blue-700 transition">
-    Upper Berth 🔄
-  </button>
+
+    <button onclick="toggleLayout()" 
+        class="flex items-center gap-2 py-1 text-gray-500 text-sm font-semibold
+               rounded-lg transition ring-2 ring-gray-600
+               transition-all duration-200 p-1">
+        Upper Berth
+        <svg xmlns="http://www.w3.org/2000/svg" 
+              width="16" height="16" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              stroke-width="2" 
+              stroke-linecap="round" 
+              stroke-linejoin="round"
+              class="text-gray-500 relative top-[1px]">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"></path>
+            <path d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14"></path>
+        </svg>
+    </button>
+
 
   <!-- Right side steering wheel icon -->
   <div class="driver-section">
@@ -138,67 +162,112 @@
 
 
             <!-- Seats Grid -->
-            <div class="space-y-4">
+            <div id="seaterLayout" class="space-y-4">
                 <!-- Row A -->
                 <div class="flex justify-between items-center">
                     <div class="flex space-x-3">
-                        <button class="seat available" data-seat="A1">A1</button>
-                        <button class="seat available" data-seat="A2">A2</button>
+                        <button class="seat available" data-seat="L1">L1</button>
+                        <button class="seat available" data-seat="L2">L2</button>
                     </div>
                     <div class="flex space-x-3">
-                        <button class="seat booked" data-seat="A3" disabled>A3</button>
-                        <button class="seat booked" data-seat="A4" disabled>A4</button>
+                        <button class="seat booked" data-seat="L3" disabled>L3</button>
+                        <button class="seat booked" data-seat="L4" disabled>L4</button>
                     </div>
                 </div>
 
                 <!-- Row B -->
                 <div class="flex justify-between items-center">
                     <div class="flex space-x-3">
-                        <button class="seat available" data-seat="B1">B1</button>
-                        <button class="seat available" data-seat="B2">B2</button>
+                        <button class="seat available" data-seat="L5">L5</button>
+                        <button class="seat available" data-seat="L6">L6</button>
                     </div>
                     <div class="flex space-x-3">
-                        <button class="seat available" data-seat="B3">B3</button>
-                        <button class="seat available" data-seat="B4">B4</button>
+                        <button class="seat available" data-seat="L7">L7</button>
+                        <button class="seat available" data-seat="L8">L8</button>
                     </div>
                 </div>
 
                 <!-- Row C -->
                 <div class="flex justify-between items-center">
                     <div class="flex space-x-3">
-                        <button class="seat available" data-seat="C1">C1</button>
-                        <button class="seat available" data-seat="C2">C2</button>
+                        <button class="seat available" data-seat="L9">L9</button>
+                        <button class="seat available" data-seat="L10">L10</button>
                     </div>
                     <div class="flex space-x-3">
-                        <button class="seat available" data-seat="C3">C3</button>
-                        <button class="seat available" data-seat="C4">C4</button>
+                        <button class="seat available" data-seat="L11">L11</button>
+                        <button class="seat available" data-seat="L12">L12</button>
                     </div>
                 </div>
 
                 <!-- Row D -->
                 <div class="flex justify-between items-center">
                     <div class="flex space-x-3">
-                        <button class="seat booked" data-seat="D1" disabled>D1</button>
-                        <button class="seat booked" data-seat="D2" disabled>D2</button>
+                        <button class="seat booked" data-seat="L13" disabled>L13</button>
+                        <button class="seat booked" data-seat="L14" disabled>L14</button>
                     </div>
                     <div class="flex space-x-3">
-                        <button class="seat booked" data-seat="D3" disabled>D3</button>
-                        <button class="seat booked" data-seat="D4" disabled>D4</button>
+                        <button class="seat booked" data-seat="L15" disabled>L15</button>
+                        <button class="seat booked" data-seat="L16" disabled>L16</button>
                     </div>
                 </div>
 
                 <!-- Row E -->
                 <div class="flex justify-between items-center">
                     <div class="flex space-x-3">
-                        <button class="seat available" data-seat="E1">E1</button>
-                        <button class="seat available" data-seat="E2">E2</button>
+                        <button class="seat available" data-seat="E17">E17</button>
+                        <button class="seat available" data-seat="E18">E18</button>
                     </div>
                     <div class="flex space-x-3">
-                        <button class="seat available" data-seat="E3">E3</button>
-                        <button class="seat available" data-seat="E4">E4</button>
+                        <button class="seat available" data-seat="19">L19</button>
+                        <button class="seat available" data-seat="20">E20</button>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center">
+                    <div class="flex space-x-3">
+                        <button class="seat available" data-seat="L21">L21</button>
+                        <button class="seat available" data-seat="L22">L22</button>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button class="seat available" data-seat="L23">L23</button>
+                        <button class="seat available" data-seat="L24">L24</button>
                     </div>
                 </div>
             </div>
+
+            <!-- Sleeper layout -->
+<div id="sleeperLayout" class="sleeper space-y-4" style="display:none;">
+  <div class="flex justify-between">
+    <div class="flex space-x-3">
+      <button class="seat available" data-seat="U1">U1</button>
+      <button class="seat available" data-seat="U2">U2</button>
+    </div>
+    <div class="flex space-x-3">
+      <button class="seat available" data-seat="U3">U3</button>
+      <button class="seat available" data-seat="U4">U4</button>
+    </div>
+  </div>
+  <div class="flex justify-between">
+    <div class="flex space-x-3">
+      <button class="seat booked" disabled>U5</button>
+      <button class="seat available" data-seat="U6">U6</button>
+    </div>
+    <div class="flex space-x-3">
+      <button class="seat available" data-seat="U7">U7</button>
+      <button class="seat booked" disabled>U8</button>
+    </div>
+  </div>
+  <div class="flex justify-between">
+    <div class="flex space-x-3">
+      <button class="seat booked" disabled>U9</button>
+      <button class="seat available" data-seat="U10">U10</button>
+    </div>
+    <div class="flex space-x-3">
+      <button class="seat available" data-seat="U11">U11</button>
+      <button class="seat available" data-seat="U12">U12</button>
+    </div>
+  </div>
+</div>
+
         </div>
     </div>
   
@@ -372,6 +441,39 @@ function showAlert(message) {
     document.body.appendChild(overlay);
 }
 
+function toggleLayout() {
+  const seater = document.getElementById('seaterLayout');
+  const sleeper = document.getElementById('sleeperLayout');
+  const btn = document.querySelector('button[onclick="toggleLayout()"]');
+
+  if (seater.style.display !== 'none') {
+    seater.style.display = 'none';
+    sleeper.style.display = 'block';
+    btn.innerHTML = `Lower Berth 
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" 
+       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+       class="text-gray-500 relative top-[1px]">
+    <polyline points="23 4 23 10 17 10"></polyline>
+    <polyline points="1 20 1 14 7 14"></polyline>
+    <path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"></path>
+    <path d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14"></path>
+  </svg>`;
+
+  } else {
+    seater.style.display = 'block';
+    sleeper.style.display = 'none';
+   btn.innerHTML = `Lower Berth 
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" 
+       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+       class="text-gray-500 relative top-[1px]">
+    <polyline points="23 4 23 10 17 10"></polyline>
+    <polyline points="1 20 1 14 7 14"></polyline>
+    <path d="M3.51 9a9 9 0 0 1 14.13-3.36L23 10"></path>
+    <path d="M20.49 15a9 9 0 0 1-14.13 3.36L1 14"></path>
+  </svg>`;
+
+  }
+}
     </script>
 </body>
 </html>

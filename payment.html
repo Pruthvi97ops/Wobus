@@ -264,7 +264,14 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 // Book Ticket button - Navigate to ticket page with all data
 document.getElementById('continue-btn').addEventListener('click', function() {
+    const selectedPayment = document.querySelector('input[name="payment"]:checked');
+    if (!selectedPayment) {
+        alert("Please pay payment first");
+        return;
+    }
+    
     const urlParams = new URLSearchParams(window.location.search);
+
 
     // Get all parameters from current URL (including passengers)
     const busName = urlParams.get('busName') || '';

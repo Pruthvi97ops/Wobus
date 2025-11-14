@@ -220,11 +220,14 @@ button[onclick="searchBus()"] {
 
 <body class="bg-gray-50 font-sans">
     <!-- Simple Navbar -->
-<nav class="bg-white shadow-sm flex-col items-start px-4">
-  <img src="busweb_logo1.svg" alt="WoBus Logo" class="w-10 h-10 object-contain ml-6 block" />
-  <p class="text-gray-800 text-sm font-bold mt-[-2px] leading-none ml-[-3px] uppercase">TravelZone</p>
+<nav class="bg-gray-300 shadow-sm flex-col items-start px-4 flex items-center">
+  <img src="busweb_logo1.svg" alt="WoBus Logo" class="w-10 h-10 object-contain ml-2" />
+  <p class="text-gray-800 text-sm font-bold mt-[-2px] leading-none mb-1 uppercase">TravelZone</p>
 
 </nav>
+
+
+
 
 
     <!-- Main Content -->
@@ -232,8 +235,8 @@ button[onclick="searchBus()"] {
         <!-- Popular Cities Section -->
         <div class="bg-white shadow-sm px-3 p-1"> 
             <!-- Header -->
-            <div class="flex justify-between">
-                <h2 class="text-sm font-semibold text-gray-800">Popular Cities</h2>
+            <div class="flex justify-between ">
+                <h2 class="text-sm font-semibold text-gray-800 uppercase">Popular Cities</h2>
                 <button class="flex text-sm text-bold px-3 text-black-900 ">
                     <span>OD</span>
                     <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -350,7 +353,7 @@ button[onclick="searchBus()"] {
     
       <!-- Map Exploration Section -->
       <div class="bg-white shadow-sm mb-4 relative">
-        <div id="map" class="w-full h-80 bg-gray-200 relative overflow-hidden">
+        <div id="map" class="w-full h-84 bg-gray-200 relative overflow-hidden">
         <iframe 
           width="100%" 
           height="400" 
@@ -626,6 +629,3 @@ document.getElementById('searchPopup').addEventListener('click', function(event)
     </script>
 </body>
 </html>
-
-
-

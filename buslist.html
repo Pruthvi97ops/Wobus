@@ -17,6 +17,23 @@
             }
         }
     </script>
+    <style>
+        /* Ensure mobile-first design */
+@media (min-width: 768px) {
+    body {
+        display: grid;
+        place-items: center;
+    }
+    
+    body > * {
+        max-width: 375px;
+        width: 100%;
+        border-left: 1px solid #e5e7eb;
+        border-right: 1px solid #e5e7eb;
+    }
+}
+    </style>
+
 </head>
 <body class="bg-gray-50 min-h-screen">
 
@@ -79,7 +96,7 @@ const busData = [
         id: 1,
         company: "Hanif Royal",
         type: "AC / Sleeper",
-        seats: 10,
+        seats: 36,
         logo: "HR",
         logoColor: "bg-red-500",
         departure: "10:00 PM",
@@ -91,7 +108,7 @@ const busData = [
         id: 2,
         company: "Green Line",
         type: "Non-AC / Seater",
-        seats: 25,
+        seats: 36,
         logo: "GL",
         logoColor: "bg-green-500",
         departure: "11:30 PM",
@@ -103,7 +120,7 @@ const busData = [
         id: 3,
         company: "Royal Coach",
         type: "AC / Semi Sleeper",
-        seats: 12,
+        seats: 36,
         logo: "RC",
         logoColor: "bg-purple-500",
         departure: "09:15 PM",

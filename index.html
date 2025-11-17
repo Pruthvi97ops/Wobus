@@ -225,9 +225,9 @@ button[onclick="searchBus()"] {
 
 <body class="bg-gray-50 font-sans">
     <!-- Simple Navbar -->
-<nav class="bg-gray-200 shadow-sm flex-col items-start px-4 flex items-center">
-  <img src="busweb_logo1.svg" alt="WoBus Logo" class="w-10 h-10 object-contain ml-2" />
-  <p class="text-gray-800 text-sm font-bold mt-[-2px] leading-none uppercase">TravelZone</p>
+<nav class="bg-black shadow-sm flex-col items-start px-4 flex items-center h-11 ">
+  <img src="Logo_white.png" alt="WoBus Logo" class="w-7 h-7 object-contain ml-2 mt-1" />
+  <p class="text-white text-xs font-bold mt-[-2px] leading-none uppercase mt-1 ">TravelZone</p>
 
 </nav>
 
@@ -240,11 +240,11 @@ button[onclick="searchBus()"] {
         <!-- Popular Cities Section -->
         <div class="bg-white shadow-sm p-2"> 
             <!-- Header -->
-            <div class="flex justify-between ">
-                <h2 class="text-sm font-semibold text-gray-800 uppercase">Popular Cities</h2>
-                <button class="flex text-sm text-bold px-3 text-black-900 ">
+            <div class="flex justify-between">
+                <h2 class="text-sm font-semibold text-gray-800 ">Popular Cities</h2>
+                <button class="flex text-sm font-bold  px-3 text-black-700 ">
                     <span>OD</span>
-                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 ml-1 mt-1 -translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </button>
@@ -252,7 +252,7 @@ button[onclick="searchBus()"] {
             </div>
 
             <!-- Cities Grid -->
-            <div class="grid grid-cols-4 gap-4" id="citiesGrid">
+            <div class="grid grid-cols-4 gap-2 " id="citiesGrid">
                 <!-- Row 1 -->
                   <div class="flex flex-col items-center">
                     <div class="w-12 h-14 rounded-full overflow-hidden mb-2">
@@ -341,15 +341,15 @@ button[onclick="searchBus()"] {
             </div>
             <!-- Toggle Button (Hyphen Icon) -->
           <!-- Toggle Button (small override to cancel global min-height) -->
-<div class="flex justify-center items-center mt-2">
+<div class="flex justify-center items-center mt-3 ">
   <button
     id="toggleButton"
     onclick="toggleCities()"
-    class="text-gray-800 text-xs font-bold leading-none
+    class="text-white text-xs font-bold leading-none
            ring-2 ring-gray-600 ring-offset-2 ring-offset-white
-           transition-all duration-200 p-1"
-    style="min-height: unset; height: auto; line-height: 1;box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);"
-  >
+           transition-all duration-200 p-1 bg-black rounded-full p-2 "
+    style="min-height: unset; height: auto; line-height: 1;box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.529); "
+    >
     MORE
   </button>
 </div>
